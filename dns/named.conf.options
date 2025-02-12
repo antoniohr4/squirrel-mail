@@ -1,0 +1,48 @@
+acl autorizados {
+    192.168.56.0/24;
+	127.0.0.0/8;
+}
+options {
+   
+    directory "/var/cache/bind";
+    recursion yes; 
+
+  
+    allow-query { any; };
+    allow-recursion { any; };
+
+    
+    dnssec-validation auto;
+
+    
+    forwarders {
+        8.8.8.8;
+        8.8.4.4;
+    };
+
+  
+    fetch-glue yes;
+
+    // Opciones de logs
+    logging {
+        channel default_file {
+            file "/var/log/named.log" versions 3 size 5m;
+            severity info;
+            print-time yes;
+            print-severity yes;
+            print-category yes;
+        };
+
+        category default { default_file; };
+    };
+
+    forwarders {
+	 	192.168.57.10;
+	};
+  
+    listen-on { 127.0.0.1; 192.168.57.100; }; 
+    listen-on-v6 { none; };
+
+    // Para deshabilitar las respuestas no solicitadas de DNS (Ampliar la seguridad)
+    minimal-responses yes;
+};

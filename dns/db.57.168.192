@@ -1,0 +1,12 @@
+$TTL    86400
+@       IN      SOA     mail.aula.izv. root.aula.izv. (
+                  2025012901 ; Serial
+                  3600       ; Refresh
+                  1800       ; Retry
+                  1209600    ; Expire
+                  86400 )    ; Minimum TTL
+
+; Servidores de nombres
+@       IN      NS      mail.aula.izv
+10  IN  PTR     mail.aula.izv.
+@   IN  MX  10  mail.aula.izv.
