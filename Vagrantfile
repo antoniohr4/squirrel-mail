@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
       apt upgrade -y
       apt install bind9 apache2 php7.4 libapache2-mod-php7.4 dovecot-core dovecot-imapd dovecot-pop3d -y
       apt-get install postfix
-      
+
 
       # activar php
       a2enmod php7.4
@@ -44,7 +44,8 @@ Vagrant.configure("2") do |config|
       cp -v /vagrant/postfix/main.cf /etc/postfix/
 
       #añadir usuarios
-
+      useradd -m -s /bin/bash -p $(openssl passwd -1 f) fulano
+      useradd -m -s /bin/bash -p $(openssl passwd -1 m) mengano
       #Configurar apache2 y habilitar modulos
 
       cp -v /vagrant/apache2/apache2.conf /etc/apache2/apache2.conf
