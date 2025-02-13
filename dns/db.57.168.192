@@ -1,12 +1,19 @@
-$TTL    86400
-@       IN      SOA     mail.aula.izv. root.aula.izv. (
-                  2025012901 ; Serial
-                  3600       ; Refresh
-                  1800       ; Retry
-                  1209600    ; Expire
-                  86400 )    ; Minimum TTL
+;
+; Archivo de zona inversa para 192.168.57.x
+;
+$TTL    604800
+@       IN      SOA     ns1.aula.izv. admin.aula.izv. (
+                          2025021301 ; Serial
+                          604800     ; Refresh
+                          86400      ; Retry
+                          2419200    ; Expire
+                          604800 )   ; Minimum TTL
 
-; Servidores de nombres
-@       IN      NS      mail.aula.izv
-10  IN  PTR     mail.aula.izv.
-@   IN  MX  10  mail.aula.izv.
+; Registros de nombres de servidor (NS)
+@       IN      NS      ns1.aula.izv.
+
+; Dirección IP del servidor DNS
+ns1     IN      A       192.168.57.10
+
+; Registro PTR para la IP 192.168.57.10
+10      IN      PTR     mail.aula.izv.

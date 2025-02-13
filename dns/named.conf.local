@@ -1,7 +1,7 @@
 zone "aula.izv" {
     type master;
     file "/etc/bind/db.aula.izv";
-}
+};
 
 zone "57.168.192.in-addr.arpa" {
     type master;

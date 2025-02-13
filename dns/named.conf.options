@@ -1,48 +1,27 @@
-acl autorizados {
-    192.168.56.0/24;
-	127.0.0.0/8;
-}
 options {
-   
-    directory "/var/cache/bind";
-    recursion yes; 
+    // Configuración general
+    directory "/var/cache/bind";  // Directorio donde BIND guarda su información cacheada
 
-  
-    allow-query { any; };
-    allow-recursion { any; };
+    // Habilitar la resolución recursiva para los clientes de la red local
+    recursion yes;
 
-    
-    dnssec-validation auto;
-
-    
-    forwarders {
-        8.8.8.8;
-        8.8.4.4;
-    };
-
-  
-    fetch-glue yes;
-
-    // Opciones de logs
-    logging {
-        channel default_file {
-            file "/var/log/named.log" versions 3 size 5m;
-            severity info;
-            print-time yes;
-            print-severity yes;
-            print-category yes;
-        };
-
-        category default { default_file; };
-    };
+    // Limitar las consultas recursivas solo a clientes locales
+    allow-query { 192.168.57.0/24; };  // Solo clientes en la subred 192.168.57.x
 
     forwarders {
-	 	192.168.57.10;
-	};
-  
-    listen-on { 127.0.0.1; 192.168.57.100; }; 
-    listen-on-v6 { none; };
+            8.8.8.8;  // Google DNS
+            8.8.4.4;  // Google DNS
+    };
+    // Si deseas que BIND9 use IPv4 e IPv6, configura ambas direcciones
+    listen-on { 192.168.57.10; };  // Solo en la IP del servidor DNS
+    listen-on-v6 { none; };         // Desactivar IPv6 si no lo usas
 
-    // Para deshabilitar las respuestas no solicitadas de DNS (Ampliar la seguridad)
-    minimal-responses yes;
+    // Otros parámetros de seguridad y rendimiento
+    allow-transfer { none; };       // Desactivar transferencias de zona
+    dnssec-validation auto;        // Habilitar validación DNSSEC
+    auth-nxdomain no;              // No responder con NXDOMAIN para dominios autoritativos
+
+    // Habilitar o deshabilitar el uso de la caché para las consultas
+    max-cache-size 256M;           // Tamaño máximo de la caché
+    max-ncache-ttl 3600;           // Tiempo máximo para la caché no autoritativa (1 hora)
 };

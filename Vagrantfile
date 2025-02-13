@@ -6,7 +6,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "mail" do |mail|
     mail.vm.hostname = "mail"
     mail.vm.network "private_network", ip: "192.168.57.10"
-    mail.vm.network "public_network",  ip: "192.168.56.10", bridge: "enp3s0"
     mail.vm.provision "shell", inline: <<-SHELL
 
       # instalar paquetes necesarios
@@ -17,7 +16,7 @@ Vagrant.configure("2") do |config|
       # instalacion y configuracion inicial postfix
       debconf-set-selections <<< "postfix postfix/mailname string mail"
       debconf-set-selections <<< "postfix postfix/main_mailer_type string 'localhost'"
-      apt-get install postfix
+      apt-get install postfix -y
 
 
       # activar modulo php
@@ -53,7 +52,7 @@ Vagrant.configure("2") do |config|
 
       
       # configuracion Postfix
-      cp -v /vagrant/postfix/main.cf /etc/postfix/
+      cp -v /vagrant/postfix/main.cf /etc/postfix/main.cf
 
       # añadir usuarios
       useradd -m -s /bin/bash -p $(openssl passwd -1 f) fulano
