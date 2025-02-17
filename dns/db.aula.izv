@@ -1,19 +1,14 @@
 ;
-; Archivo de zona para aula.izv
+; BIND forward zone file for aula.izv
 ;
-$TTL    604800
-@       IN      SOA     ns1.aula.izv. admin.aula.izv. (
-                          2025021301 ; Serial
-                          604800     ; Refresh
-                          86400      ; Retry
-                          2419200    ; Expire
-                          604800 )   ; Minimum TTL
-
-; Registros de nombres de servidor (NS)
-@       IN      NS      ns1.aula.izv.
-
-; Dirección IP del servidor DNS
-ns1     IN      A       192.168.57.10
-
-; Registros A
-mail    IN      A       192.168.57.10
+$TTL    3h
+aula.izv.   IN  SOA mail.aula.izv.  admin.aula.izv. (
+                                2024080701      ; Serial (incrementa el número de serie)
+                                3h              ; Refresh
+                                1h              ; Retry
+                                1w              ; Expire
+                                1h )            ; Minimum
+aula.izv.       IN  NS      mail.aula.izv.
+aula.izv.       IN  A       192.168.57.10
+mail.aula.izv.  IN  A       192.168.57.10
+aula.izv.       IN  MX  10  mail.aula.izv.

@@ -1,19 +1,13 @@
 ;
-; Archivo de zona inversa para 192.168.57.x
+; BIND reverse zone file for 192.168.57.0/24
 ;
-$TTL    604800
-@       IN      SOA     ns1.aula.izv. admin.aula.izv. (
-                          2025021301 ; Serial
-                          604800     ; Refresh
-                          86400      ; Retry
-                          2419200    ; Expire
-                          604800 )   ; Minimum TTL
+$TTL    3h
+57.168.192.in-addr.arpa.       IN      SOA     mail.aula.izv. admin.aula.izv. (
+                                2024080701      ; Serial (incrementa el número de serie)
+                                3h              ; Refresh
+                                1h              ; Retry
+                                1w              ; Expire
+                                1h )            ; Minimum
 
-; Registros de nombres de servidor (NS)
-@       IN      NS      ns1.aula.izv.
-
-; Dirección IP del servidor DNS
-ns1     IN      A       192.168.57.10
-
-; Registro PTR para la IP 192.168.57.10
-10      IN      PTR     mail.aula.izv.
+57.168.192.in-addr.arpa.        IN      NS     mail.aula.izv.
+10.57.168.192.in-addr.arpa.     IN      PTR     mail.aula.izv.
