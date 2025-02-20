@@ -33,13 +33,12 @@ Vagrant.configure("2") do |config|
 
       
       tar xvfz /vagrant/webmail/squirrelmail.tgz -C /usr/local
-      ln -s /usr/local/squirrelmail-webmail-1.4.22 /var/www/mail
+      ln -s /usr/local/squirrelmail-webmail /var/www/mail
       sudo mkdir -p /var/local/squirrelmail/data
       chown www-data:www-data /var/local/squirrelmail/data
       mkdir -p /var/local/squirrelmail/attach
       chown www-data:www-data /var/local/squirrelmail/attach
       cp -v /vagrant/webmail/config.php /usr/local/squirrelmail-webmail-1.4.22/config/config.php
-      cp -r /usr/local/squirrelmail-webmail-1.4.22/ /var/www/mail/
 
       #Cambiar el idioma
       locale-gen es_ES
@@ -54,14 +53,14 @@ Vagrant.configure("2") do |config|
 
       cp -v /vagrant/apache2/apache2.conf /etc/apache2/apache2.conf
       cp -v /vagrant/apache2/mail.conf /etc/apache2/sites-available/mail.conf
-      a2ensite mail
       a2dissite 000-default
+      a2ensite mail.conf
       systemctl restart apache2
 
       # Instalamos postfix con debconf para automatizarlo
 
       apt-get install debconf -y 
-      debconf-set-selections <<< "postfix postfix/mailname string izv.test"
+      debconf-set-selections <<< "postfix postfix/mailname string aula.izv"
       debconf-set-selections <<< "postfix postfix/main_mailer_type string 'internet site'"
       apt-get install postfix -y
 
@@ -73,6 +72,8 @@ Vagrant.configure("2") do |config|
 
       useradd -m -s /bin/bash -p $(openssl passwd -1 f) fulano
       useradd -m -s /bin/bash -p $(openssl passwd -1 m) mengano
+
+      systemctl restart bind9
 
       
     SHELL
