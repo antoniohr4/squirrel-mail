@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
 
   
   config.vm.define "mail" do |mail|
-    mail.vm.hostname = "mail"
+    mail.vm.hostname = "mail.aula.izv"
     mail.vm.network "private_network", ip: "192.168.57.10"
     mail.vm.provision "shell", inline: <<-SHELL
 
@@ -33,13 +33,13 @@ Vagrant.configure("2") do |config|
 
       
       tar xvfz /vagrant/webmail/squirrelmail.tgz -C /usr/local
-      ln -s /usr/local/squirrelmail-webmail /var/www/mail
-      sudo mkdir -p /var/local/squirrelmail/data
+      ln -s /usr/local/squirrelmail-webmail-1.4.22 /var/www/mail
+      mkdir -p /var/local/squirrelmail/data
       chown www-data:www-data /var/local/squirrelmail/data
       mkdir -p /var/local/squirrelmail/attach
       chown www-data:www-data /var/local/squirrelmail/attach
       cp -v /vagrant/webmail/config.php /usr/local/squirrelmail-webmail-1.4.22/config/config.php
-
+      cp -r /usr/local/squirrelmail-webmail-1.4.22 /var/www/mail
       #Cambiar el idioma
       locale-gen es_ES
 
@@ -67,6 +67,8 @@ Vagrant.configure("2") do |config|
       #Configurar Postfix
 
       cp -v /vagrant/postfix/main.cf /etc/postfix/
+      cp /vagrant/dovecot/10-auth.conf /etc/dovecot/conf.d/
+      cp /vagrant/dovecot/10-mail.conf /etc/dovecot/conf.d/
 
       #Creo los usuarios mengano y fulano manera automatizada
 
